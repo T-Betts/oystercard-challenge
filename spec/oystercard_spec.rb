@@ -29,6 +29,13 @@ describe Oystercard do
       oystercard.top_up(10)
       oystercard.deduct(5)
       expect(oystercard.balance).to eq 5
-    end 
+    end
+
+  describe '#in_journey?' do
+    it 'shows a new oystercard isn\'t in journey' do
+      oystercard = Oystercard.new
+      expect(oystercard.in_journey?).to eq false
+    end
+  end
   end
 end
