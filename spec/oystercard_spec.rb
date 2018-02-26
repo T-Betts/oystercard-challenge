@@ -7,4 +7,12 @@ describe Oystercard do
       expect(oystercard.balance).to eq 0
     end
   end
+
+  describe '#top_up' do
+    it 'checks that top_up increases balance by 10' do
+      oystercard = Oystercard.new
+      oystercard.top_up(10)
+      expect(oystercard.balance).to eq 10
+    end
+  end 
 end
