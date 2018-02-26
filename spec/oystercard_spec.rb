@@ -20,4 +20,15 @@ describe Oystercard do
       expect { oystercard.top_up(91) }.to raise_error 'Balance limit is 90'
     end
   end
+
+  describe '#deduct' do
+    it { is_expected.to respond_to(:deduct).with(1).argument}
+
+    it 'deducts fare from balance' do
+      oystercard = Oystercard.new
+      oystercard.top_up(10)
+      oystercard.deduct(5)
+      expect(oystercard.balance).to eq 5
+    end 
+  end
 end
