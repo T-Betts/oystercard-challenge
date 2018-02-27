@@ -30,12 +30,28 @@ describe Oystercard do
       oystercard.deduct(5)
       expect(oystercard.balance).to eq 5
     end
+  end
 
-  describe '#in_journey?' do
-    it 'shows a new oystercard isn\'t in journey' do
-      oystercard = Oystercard.new
-      expect(oystercard.in_journey?).to eq false
+  describe '#in_journey' do
+    it 'checks that a new card is not in use' do
+      expect(subject).not_to be_in_journey
     end
   end
+
+  describe '#touch_in' do
+    it 'checks that a card is in use after touching in' do
+      oystercard = Oystercard.new
+      oystercard.touch_in
+      expect(oystercard.in_journey?).to eq true
+    end
+  end
+
+  describe '#touch_in' do
+    it 'checks that a card in no longer in use after touching out' do
+      oystercard = Oystercard.new
+      oystercard.touch_in
+      oystercard.touch_out
+      expect(oystercard).not_to be_in_journey
+    end 
   end
 end
