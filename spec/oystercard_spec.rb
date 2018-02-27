@@ -46,12 +46,18 @@ describe Oystercard do
     end
   end
 
-  describe '#touch_in' do
+  describe '#touch_out' do
     it 'checks that a card in no longer in use after touching out' do
       oystercard = Oystercard.new
       oystercard.touch_in
       oystercard.touch_out
       expect(oystercard).not_to be_in_journey
-    end 
+    end
+
+    it 'deducts minimum fare upon touch out' do
+      subject.top_up(5)
+      subject.touch_in
+      expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::MINIMUM_FARE)
+    end
   end
 end
