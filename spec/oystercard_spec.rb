@@ -1,6 +1,9 @@
 require 'oystercard'
 
 describe Oystercard do
+  before(:each) do
+    @station = double(:station)
+  end
   describe '#balance' do
     it 'returns a balance of 0 on a new card' do
       oystercard = Oystercard.new
@@ -42,8 +45,15 @@ describe Oystercard do
     it 'checks that a card is in use after touching in' do
       oystercard = Oystercard.new
       oystercard.top_up(5)
-      oystercard.touch_in
+      oystercard.touch_in(@station)
       expect(oystercard.in_journey?).to eq true
+    end
+
+    it 'should be able to record entry station upon touching in' do
+      card = Oystercard.new
+      card.top_up(10)
+      card.touch_in(@station)
+      expect(card.entry).to eq @station
     end
   end
 
@@ -51,18 +61,18 @@ describe Oystercard do
     it 'checks that a card in no longer in use after touching out' do
       oystercard = Oystercard.new
       oystercard.top_up(5)
-      oystercard.touch_in
+      oystercard.touch_in(@station)
       oystercard.touch_out
       expect(oystercard).not_to be_in_journey
     end
 
     it 'raises error when trying to touch in with balance less than 1' do
-      expect { subject.touch_in }.to raise_error "Insufficient funds!"
+      expect { subject.touch_in(@station) }.to raise_error "Insufficient funds!"
     end
 
     it 'deducts minimum fare upon touch out' do
       subject.top_up(5)
-      subject.touch_in
+      subject.touch_in(@station)
       expect { subject.touch_out }.to change { subject.balance }.by(-Oystercard::MINIMUM_FARE)
     end
   end
