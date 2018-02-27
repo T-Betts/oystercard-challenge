@@ -21,16 +21,16 @@ describe Oystercard do
     end
   end
 
-  describe '#deduct' do
-    it { is_expected.to respond_to(:deduct).with(1).argument}
-
-    it 'deducts fare from balance' do
-      oystercard = Oystercard.new
-      oystercard.top_up(10)
-      oystercard.deduct(5)
-      expect(oystercard.balance).to eq 5
-    end
-  end
+  #describe '#deduct' do
+  #   it { is_expected.to respond_to(:deduct).with(1).argument}
+  #
+  #   it 'deducts fare from balance' do
+  #     oystercard = Oystercard.new
+  #     oystercard.top_up(10)
+  #     oystercard.deduct(5)
+  #     expect(oystercard.balance).to eq 5
+  #   end
+  # end
 
   describe '#in_journey' do
     it 'checks that a new card is not in use' do
@@ -54,6 +54,10 @@ describe Oystercard do
       oystercard.touch_in
       oystercard.touch_out
       expect(oystercard).not_to be_in_journey
+    end
+
+    it 'raises error when trying to touch in with balance less than 1' do
+      expect { subject.touch_in }.to raise_error "Insufficient funds!"
     end
 
     it 'deducts minimum fare upon touch out' do
