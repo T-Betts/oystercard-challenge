@@ -21,6 +21,7 @@ class Oystercard
   end
 
   def touch_in
+    fail "Insufficient funds!" unless balance > 1
     @travel_status = true
   end
 

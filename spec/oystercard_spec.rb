@@ -41,6 +41,7 @@ describe Oystercard do
   describe '#touch_in' do
     it 'checks that a card is in use after touching in' do
       oystercard = Oystercard.new
+      oystercard.top_up(5)
       oystercard.touch_in
       expect(oystercard.in_journey?).to eq true
     end
@@ -49,6 +50,7 @@ describe Oystercard do
   describe '#touch_out' do
     it 'checks that a card in no longer in use after touching out' do
       oystercard = Oystercard.new
+      oystercard.top_up(5)
       oystercard.touch_in
       oystercard.touch_out
       expect(oystercard).not_to be_in_journey
