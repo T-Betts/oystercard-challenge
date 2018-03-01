@@ -43,7 +43,13 @@ describe Oystercard do
     end
 
     it 'records entry station upon touching in' do
-      expect(@touched_in_card.entry_station).to eq @entry_station
+      expect(@touched_in_card.journey.entry_station).to eq @entry_station
+    end
+
+    it 'charge penalty fare if card owner failed to touch out of previous journey' do
+      subject.top_up(10)
+      subject.touch_in(@entry_station)
+      expect{ subject.touch_in(@entry_station) }.to change { subject.balance }.by(-Oystercard::PENALTY_FARE)
     end
   end
 
@@ -63,7 +69,7 @@ describe Oystercard do
 
     it 'records exit station upon touching out' do
       @touched_in_card.touch_out(@exit_station)
-      expect(@touched_in_card.exit_station).to eq @exit_station
+      expect(@touched_in_card.journey.exit_station).to eq @exit_station
     end
 
     let(:journey){ {@entry_station => @exit_station} }

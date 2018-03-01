@@ -1,16 +1,21 @@
 class Journey
+  attr_reader :entry_station, :exit_station
+  attr_accessor :journey
   def initialize
-    @jounrey = {}
+    @journey = {}
   end
 
   def start(station)
     @entry_station = station
     @journey[@entry_station] = nil
+    entry_station
   end
 
-  def end(station)
+  def finish(station)
     @exit_station = station
     @journey[@entry_station] = @exit_station
+    @entry_station = nil
+    @journey
   end
   #all touch outs are valid and after touching out the journey should be pushed
   #to the card's journey_history array. if touch_in is called twice in a row you
